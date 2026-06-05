@@ -179,6 +179,23 @@
   </main>
 
   <script src="js/app.js"></script>
+
+  <script>
+  // Force the application to use your Web App URL automatically on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof saveScriptUrl === 'function') {
+      const inputField = document.getElementById('script-url-input');
+      if (inputField) {
+        inputField.value = "https://google.com";
+        saveScriptUrl(); // Automatically triggers the save function
+      }
+    } else {
+      // Alternate fallback if your project saves URLs to localStorage
+      localStorage.setItem('script-url', "https://google.com");
+      if (typeof loadAll === 'function') loadAll();
+    }
+  });
+</script>
   
 </body>
 </html>
