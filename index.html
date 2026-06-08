@@ -1,203 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hostel Mess Manager</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3S - Mess Meal Management System</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- ============================================
+         AUTHENTICATION PAGE
+         ============================================ -->
+    <div id="auth-page">
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
 
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">🍽</div>
-      <div>
-        <div class="brand-name">MessBook</div>
-        <div class="brand-sub">Google Sheets Edition</div>
-      </div>
+        <div class="auth-container">
+            <div class="auth-card">
+                <!-- Logo Section -->
+                <div class="logo-section">
+                    <div class="logo-icon">🌿</div>
+                    <div class="logo-text">
+                        <h1>M3S</h1>
+                        <p>Mess Meal Management System</p>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="register">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="handleLogin()">Sign In</button>
+
+                    <div class="divider">or</div>
+
+                    <button class="btn btn-oauth" onclick="initiateGitHubOAuth()">
+                        <svg class="oauth-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        Sign in with GitHub
+                    </button>
+
+                    <div class="auth-footer">
+                        Don't have an account? <a onclick="switchTab('register')">Register here</a>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="auth-form hidden">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-github">GitHub Username</label>
+                        <input type="text" id="register-github" placeholder="johndoe" required>
+                        <span class="info-text">Used for OAuth mapping and community features</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">Email Address</label>
+                        <input type="email" id="register-email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-mobile">Mobile Number</label>
+                        <input type="tel" id="register-mobile" placeholder="+1 (555) 123-4567" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-room">Room Number</label>
+                        <input type="text" id="register-room" placeholder="E.g., 101A or 3-B" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" placeholder="Create a strong password" required>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="handleRegister()">Create Account</button>
+
+                    <div class="divider">or</div>
+
+                    <button class="btn btn-oauth" onclick="initiateGitHubOAuth('register')">
+                        <svg class="oauth-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        Sign up with GitHub
+                    </button>
+
+                    <div class="auth-footer">
+                        Already have an account? <a onclick="switchTab('login')">Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <nav>
-      <button class="nav-btn active" onclick="switchTab('dashboard')">
-        <span class="nav-icon">⊞</span> Dashboard
-      </button>
-      <button class="nav-btn" onclick="switchTab('members')">
-        <span class="nav-icon">👥</span> Members
-      </button>
-      <button class="nav-btn" onclick="switchTab('meals')">
-        <span class="nav-icon">🥘</span> Meal Entry
-      </button>
-      <button class="nav-btn" onclick="switchTab('expenses')">
-        <span class="nav-icon">💸</span> Expenses
-      </button>
-      <button class="nav-btn" onclick="switchTab('deposits')">
-        <span class="nav-icon">💰</span> Deposits
-      </button>
-      <button class="nav-btn" onclick="switchTab('summary')">
-        <span class="nav-icon">📊</span> Summary
-      </button>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="meal-rate-display">
-        Meal Rate: <strong id="sidebar-rate">৳—</strong>
-      </div>
-      <div class="sync-status" id="sync-status">⏳ Not connected</div>
+
+    <!-- ============================================
+         DASHBOARD PAGE
+         ============================================ -->
+    <div id="dashboard-page" class="hidden">
+        <!-- Header/Navbar -->
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-brand">
+                        <div class="header-brand-icon">🌿</div>
+                        <div class="header-brand-text">
+                            <h2>M3S</h2>
+                            <p>Mess Management System</p>
+                        </div>
+                    </div>
+
+                    <div class="header-user">
+                        <div class="user-info show" id="user-info">
+                            <h3 id="user-name">Loading...</h3>
+                            <p id="user-room">Room #</p>
+                        </div>
+                        <div class="user-avatar" id="user-avatar-icon">?</div>
+                        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- MODULE 1: Member Directory -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">👥</div>
+                        <div class="module-title">
+                            <h3>Member Directory</h3>
+                            <p>All active members</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Room</th>
+                                        <th>Contact</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="member-directory-table">
+                                    <tr>
+                                        <td colspan="4" class="empty-state">
+                                            <div class="empty-state-icon">📋</div>
+                                            <h4>No members yet</h4>
+                                            <p>Add members to get started</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 2: Multi-Time Deposit Ledger -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">💰</div>
+                        <div class="module-title">
+                            <h3>Deposit Ledger</h3>
+                            <p>Track member deposits</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <label for="deposit-member-select">Select Member</label>
+                            <select id="deposit-member-select">
+                                <option value="">Choose member...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="form-group">
+                                <label for="deposit-amount">Amount ($)</label>
+                                <input type="number" id="deposit-amount" placeholder="50.00" min="0" step="0.01">
+                            </div>
+                            <button class="btn btn-primary" onclick="addDeposit()" style="width: auto; min-width: 100px;">Add</button>
+                        </div>
+
+                        <div id="deposits-list" style="margin-top: 16px;">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">💵</div>
+                                <h4>No deposits recorded</h4>
+                                <p>Add a deposit to get started</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600; color: var(--text-light);">Total Deposit:</span>
+                                <span id="total-deposit" style="font-size: 20px; font-weight: 700; color: var(--primary-dark);">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 3: Daily Meal Tracker -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">🍽️</div>
+                        <div class="module-title">
+                            <h3>Daily Meal Tracker</h3>
+                            <p>Record meal counts</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <label for="meal-member-select">Select Member</label>
+                            <select id="meal-member-select">
+                                <option value="">Choose member...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meal-date">Date</label>
+                            <input type="date" id="meal-date">
+                        </div>
+
+                        <div class="meal-grid">
+                            <div class="meal-input-group">
+                                <label for="meal-breakfast">Breakfast</label>
+                                <input type="number" id="meal-breakfast" value="0" min="0" max="2">
+                            </div>
+                            <div class="meal-input-group">
+                                <label for="meal-lunch">Lunch</label>
+                                <input type="number" id="meal-lunch" value="0" min="0" max="2">
+                            </div>
+                            <div class="meal-input-group">
+                                <label for="meal-dinner">Dinner</label>
+                                <input type="number" id="meal-dinner" value="0" min="0" max="2">
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="recordMeal()">Record Meals</button>
+
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600; color: var(--text-light);">Total Meals (Member):</span>
+                                <span id="total-member-meals" style="font-size: 20px; font-weight: 700; color: var(--primary-dark);">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 4: Mess Expense Logger -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">🛒</div>
+                        <div class="module-title">
+                            <h3>Mess Expense Logger</h3>
+                            <p>Track shared expenses</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="expense-entry">
+                            <div class="form-group">
+                                <label for="expense-category">Category</label>
+                                <select id="expense-category">
+                                    <option value="">Select category...</option>
+                                    <option value="groceries">Groceries</option>
+                                    <option value="dairy">Dairy</option>
+                                    <option value="spices">Spices & Condiments</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="kitchen">Kitchen Supplies</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-date">Date</label>
+                                <input type="date" id="expense-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-amount">Amount ($)</label>
+                                <input type="number" id="expense-amount" placeholder="0.00" min="0" step="0.01">
+                            </div>
+                            <button class="btn btn-primary" onclick="addExpense()" style="width: auto; min-width: 80px;">Add</button>
+                        </div>
+
+                        <div id="expenses-list" style="margin-top: 16px;">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🧾</div>
+                                <h4>No expenses recorded</h4>
+                                <p>Log your first expense</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600; color: var(--text-light);">Total Mess Expense:</span>
+                                <span id="total-mess-expense" style="font-size: 20px; font-weight: 700; color: var(--error);">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 5: Real-Time Financial Analytics Engine -->
+                <div class="module-card analytics-card">
+                    <div class="module-header">
+                        <div class="module-icon">📊</div>
+                        <div class="module-title">
+                            <h3>Financial Analytics</h3>
+                            <p>Real-time settlement calculations</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <div class="analytics-label">Meal Rate (Per Meal)</div>
+                                <div class="analytics-value" id="analytics-meal-rate">$0.00</div>
+                            </div>
+
+                            <div class="analytics-item">
+                                <div class="analytics-label">Total Mess Meals</div>
+                                <div class="analytics-value" id="analytics-total-meals">0</div>
+                            </div>
+
+                            <div class="analytics-item">
+                                <div class="analytics-label">Member's Meal Count</div>
+                                <div class="analytics-value" id="analytics-per-member-meals">0</div>
+                            </div>
+
+                            <div class="analytics-item">
+                                <div class="analytics-label">Per Person Cost</div>
+                                <div class="analytics-value" id="analytics-per-person-cost">$0.00</div>
+                            </div>
+
+                            <div class="analytics-item">
+                                <div class="analytics-label">Member's Total Deposit</div>
+                                <div class="analytics-value" id="analytics-member-deposit">$0.00</div>
+                            </div>
+
+                            <div class="analytics-item" id="analytics-settlement-container">
+                                <div class="analytics-label">Final Settlement</div>
+                                <div class="analytics-value" id="analytics-settlement">$0.00</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; padding: 16px; background: var(--bg-soft); border-radius: var(--radius-md); border-left: 4px solid var(--primary-light);">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;">How it works:</h4>
+                            <ul style="font-size: 13px; color: var(--text-light); line-height: 1.8; margin: 0; padding-left: 20px;">
+                                <li><strong>Meal Rate:</strong> Total Mess Expense ÷ Total Mess Meals</li>
+                                <li><strong>Per Person Cost:</strong> Member's Meals × Meal Rate</li>
+                                <li><strong>Settlement:</strong> Member's Deposit - Per Person Cost</li>
+                                <li style="margin-top: 8px;"><strong style="color: var(--success);">Green (Positive):</strong> Member will receive refund</li>
+                                <li><strong style="color: var(--error);">Red (Negative):</strong> Member needs to pay additional amount</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </aside>
 
-  <main class="main">
-   
-        <!-- CONFIG BANNER -->
-    <div id="config-banner" class="config-banner">
-      <div class="config-inner">
-        <div>
-          <strong>Connect to Google Sheets</strong>
-          <div style="font-size:13px;margin-top:4px;color:var(--text2)">Your Apps Script URL is pre-filled below. Click Connect to start syncing.</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <input type="text" id="script-url-input" value="https://script.google.com/macros/s/AKfycbwa5uv-S1RJNE2ctaHFf-zhcRnorWnS1toyR_L97TVeoFmonC7h-WeeBRB2Gr5m0N-S/exec" style="width:380px" />
-          <button class="btn btn-primary" onclick="saveScriptUrl()">Connect</button>
-        </div>
-      </div>
-    </div>
-
-    
-    <!-- DASHBOARD -->
-    <section id="tab-dashboard" class="tab-section active">
-      <div class="page-header">
-        <h1>Dashboard</h1>
-        <p>Overview of the mess for all members</p>
-        <button class="btn" onclick="loadAll()" style="margin-top:8px;font-size:13px">🔄 Refresh from Sheets</button>
-      </div>
-      <div class="metrics-grid" id="dash-metrics">
-        <div class="metric"><div class="lbl">Members</div><div class="val">—</div></div>
-        <div class="metric"><div class="lbl">Total Meals</div><div class="val">—</div></div>
-        <div class="metric"><div class="lbl">Total Expenses</div><div class="val">—</div></div>
-        <div class="metric"><div class="lbl">Total Deposits</div><div class="val">—</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Member Status</div>
-        <div id="dash-members"><p class="empty-msg">Connect to Google Sheets to load data.</p></div>
-      </div>
-    </section>
-
-    <!-- MEMBERS -->
-    <section id="tab-members" class="tab-section">
-      <div class="page-header"><h1>Members</h1><p>Add or remove hostel members</p></div>
-      <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-title">Add New Member</div>
-        <div class="form-row-group">
-          <div class="form-field"><label>Full Name</label><input type="text" id="new-name" placeholder="e.g. Rahim Uddin" /></div>
-          <div class="form-field"><label>Room Number</label><input type="text" id="new-room" placeholder="e.g. 12" /></div>
-          <div class="form-field" style="align-self:flex-end"><button class="btn btn-primary" onclick="addMember()">+ Add Member</button></div>
-        </div>
-      </div>
-      <div class="card"><div class="card-title">All Members</div><div id="members-list"><p class="empty-msg">Loading...</p></div></div>
-    </section>
-
-    <!-- MEAL ENTRY -->
-    <section id="tab-meals" class="tab-section">
-      <div class="page-header"><h1>Meal Entry</h1><p>Log daily meals and set the meal rate</p></div>
-      <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-title">Meal Rate</div>
-        <div class="form-row-group">
-          <div class="form-field"><label>Rate per Meal (৳)</label><input type="number" id="meal-rate" placeholder="e.g. 60" min="0" /></div>
-          <div class="form-field" style="align-self:flex-end"><button class="btn btn-primary" onclick="setMealRate()">Update Rate</button></div>
-          <div class="form-field" style="align-self:flex-end"><div class="info-chip">Current: <strong id="current-rate-display">৳—</strong></div></div>
-        </div>
-      </div>
-      <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-title">Log Meals</div>
-        <div class="form-row-group">
-          <div class="form-field"><label>Member</label><select id="meal-person"><option value="">Select member</option></select></div>
-          <div class="form-field"><label>Date</label><input type="date" id="meal-date" /></div>
-        </div>
-        <div class="form-row-group three-col">
-          <div class="form-field"><label>Breakfast</label><input type="number" id="meal-b" placeholder="0" min="0" /></div>
-          <div class="form-field"><label>Lunch</label><input type="number" id="meal-l" placeholder="0" min="0" /></div>
-          <div class="form-field"><label>Dinner</label><input type="number" id="meal-d" placeholder="0" min="0" /></div>
-        </div>
-        <button class="btn btn-primary" onclick="addMeal()">Save Meals</button>
-      </div>
-      <div class="card"><div class="card-title">Meal Log</div><div class="table-wrap"><div id="meal-log"><p class="empty-msg">No entries yet.</p></div></div></div>
-    </section>
-
-    <!-- EXPENSES -->
-    <section id="tab-expenses" class="tab-section">
-      <div class="page-header"><h1>Expenses</h1><p>Record mess purchases paid by members</p></div>
-      <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-title">Add Expense</div>
-        <div class="form-row-group">
-          <div class="form-field"><label>Paid By</label><select id="exp-person"><option value="">Select member</option></select></div>
-          <div class="form-field"><label>Amount (৳)</label><input type="number" id="exp-amount" placeholder="0" min="0" /></div>
-        </div>
-        <div class="form-row-group">
-          <div class="form-field"><label>Description</label><input type="text" id="exp-desc" placeholder="e.g. Rice, vegetables..." /></div>
-          <div class="form-field"><label>Date</label><input type="date" id="exp-date" /></div>
-        </div>
-        <button class="btn btn-primary" onclick="addExpense()">Add Expense</button>
-      </div>
-      <div class="card"><div class="card-title">Expense Log</div><div class="table-wrap"><div id="exp-log"><p class="empty-msg">No expenses yet.</p></div></div></div>
-    </section>
-
-    <!-- DEPOSITS -->
-    <section id="tab-deposits" class="tab-section">
-      <div class="page-header"><h1>Deposits</h1><p>Record money deposited by each member</p></div>
-      <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-title">Add Deposit</div>
-        <div class="form-row-group">
-          <div class="form-field"><label>Member</label><select id="dep-person"><option value="">Select member</option></select></div>
-          <div class="form-field"><label>Amount (৳)</label><input type="number" id="dep-amount" placeholder="0" min="0" /></div>
-          <div class="form-field"><label>Date</label><input type="date" id="dep-date" /></div>
-        </div>
-        <button class="btn btn-primary" onclick="addDeposit()">Add Deposit</button>
-      </div>
-      <div class="card"><div class="card-title">Deposit Log</div><div class="table-wrap"><div id="dep-log"><p class="empty-msg">No deposits yet.</p></div></div></div>
-    </section>
-
-    <!-- SUMMARY -->
-    <section id="tab-summary" class="tab-section">
-      <div class="page-header"><h1>Summary</h1><p>Individual financial breakdown</p></div>
-      <div class="card" style="margin-bottom:1.5rem">
-        <div class="card-title">Individual Breakdown</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Member</th><th>Total Meals</th><th>Meal Cost</th><th>Deposited</th><th>Expenses Paid</th><th>Balance</th></tr></thead>
-            <tbody id="summary-table"><tr><td colspan="6" style="text-align:center;color:var(--text3);padding:2rem">Load data to see summary.</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card formula-card">
-        <div class="card-title">Balance Formula</div>
-        <div class="formula">Balance = Deposit + Expenses Paid − Meal Cost</div>
-        <div class="formula-note">
-          <span class="badge badge-green">Positive</span> Member is owed money &nbsp;&nbsp;
-          <span class="badge badge-red">Negative</span> Member owes money
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <script src="js/app.js"></script>
-
-  <script>
-  // Force the application to use your Web App URL automatically on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    if (typeof saveScriptUrl === 'function') {
-      const inputField = document.getElementById('script-url-input');
-      if (inputField) {
-        inputField.value = "https://google.com";
-        saveScriptUrl(); // Automatically triggers the save function
-      }
-    } else {
-      // Alternate fallback if your project saves URLs to localStorage
-      localStorage.setItem('script-url', "https://google.com");
-      if (typeof loadAll === 'function') loadAll();
-    }
-  });
-</script>
-  
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
